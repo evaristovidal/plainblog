@@ -1,0 +1,6 @@
+@PlainBlog.Application_HostAddress = http://localhost:5183
+
+GET {{PlainBlog.Application_HostAddress}}/weatherforecast/
+Accept: application/xml
+
+###
