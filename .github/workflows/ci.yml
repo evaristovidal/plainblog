@@ -19,17 +19,14 @@ jobs:
       with:
         dotnet-version: '8.x'
 
-    - name: Change working directory
-      run: cd src  # Change directory to 'src'
-
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore src/PlainBlog.Application.sln
 
     - name: Build
-      run: dotnet build --configuration Release
+      run: dotnet build src/PlainBlog.Application.sln --configuration Release
 
     - name: Test
-      run: dotnet test --configuration Release --collect:"XPlat Code Coverage"
+      run: dotnet test src/PlainBlog.Application.sln --configuration Release --collect:"XPlat Code Coverage"
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v2
