@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main  # Trigger CI on push to the main branch
-      - dev/evidal/cipipeline
+      - dev/**
 
 jobs:
   build:
@@ -34,17 +34,20 @@ jobs:
         done
       continue-on-error: true
       
-    - name: Upload coverage reports for all test projects
-      uses: actions/upload-artifact@v2
-      with:
-        name: all-test-coverage
-        path: src/**/coverage
+    # - name: Upload coverage reports for all test projects
+    #   uses: actions/upload-artifact@v2
+    #   with:
+    #     name: all-test-coverage
+    #     path: src/**/coverage
 
-#    - name: Test
-#      run: dotnet test src/PlainBlog.Application.sln --configuration Release --collect:"XPlat Code Coverage"
-#
-#    - name: Upload coverage report
-#      uses: actions/upload-artifact@v2
-#      with:
-#        name: coverage
-#        path: TestResults
+    # - name: Merge coverage reports
+    #   run: |
+    #     dotnet tool install -g dotnet-reportgenerator-globaltool
+    #     reportgenerator "-reports:src/**/coverage.cobertura.xml" "-targetdir:merged_coverage"
+
+    - name: Upload coverage to Codecov
+      uses: codecov/codecov-action@v4.0.1
+      with:
+        token: ${{ secrets.CODECOV_TOKEN }}
+        files: src/**/coverage.cobertura.xml
+        slug: evaristovidal/plainblog
