@@ -13,13 +13,15 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlainBlog.Post", "PlainBlog
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Store", "Store", "{7D18733D-8D84-4167-A23A-D5A2383E001C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainBlog.Store", "PlainBlog.Store\PlainBlog.Store.csproj", "{4A25C48B-2395-488C-9A7A-5628E137D6E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlainBlog.Store", "PlainBlog.Store\PlainBlog.Store.csproj", "{4A25C48B-2395-488C-9A7A-5628E137D6E9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainBlog.Store.PostgreSQL", "PlainBlog.Store.PostgreSQL\PlainBlog.Store.PostgreSQL.csproj", "{5D9DBF6C-A13E-4C67-B5B5-B768C9ED335D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlainBlog.Store.PostgreSQL", "PlainBlog.Store.PostgreSQL\PlainBlog.Store.PostgreSQL.csproj", "{5D9DBF6C-A13E-4C67-B5B5-B768C9ED335D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainBlog.Posts.Api", "PlainBlog.Posts.Api\PlainBlog.Posts.Api.csproj", "{3850E3B4-D360-4251-B1B9-70448B902C2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlainBlog.Posts.Api", "PlainBlog.Posts.Api\PlainBlog.Posts.Api.csproj", "{3850E3B4-D360-4251-B1B9-70448B902C2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PlainBlog.Posts.Tests", "PlainBlog.Posts.Tests\PlainBlog.Posts.Tests.csproj", "{47A07288-EA30-4A89-B2F2-877957E0908F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PlainBlog.Posts.Tests", "PlainBlog.Posts.Tests\PlainBlog.Posts.Tests.csproj", "{47A07288-EA30-4A89-B2F2-877957E0908F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PlainBlog.Author", "PlainBlog.Author", "{E3BEC714-7B55-48CC-BFBF-45218E1E1D2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -58,6 +60,7 @@ Global
 		{5D9DBF6C-A13E-4C67-B5B5-B768C9ED335D} = {7D18733D-8D84-4167-A23A-D5A2383E001C}
 		{3850E3B4-D360-4251-B1B9-70448B902C2E} = {5C3FDFDB-AFA5-4292-A610-A9611F570AEE}
 		{47A07288-EA30-4A89-B2F2-877957E0908F} = {5C3FDFDB-AFA5-4292-A610-A9611F570AEE}
+		{E3BEC714-7B55-48CC-BFBF-45218E1E1D2C} = {06272289-29A7-4A45-B417-2ED20F875667}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1F25EB94-015E-4A72-906B-3AC529CC8439}
