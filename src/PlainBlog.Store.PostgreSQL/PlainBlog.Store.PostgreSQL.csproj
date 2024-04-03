@@ -22,4 +22,8 @@
     <ProjectReference Include="..\PlainBlog.Store\PlainBlog.Store.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Migrations\" />
+  </ItemGroup>
+
 </Project>

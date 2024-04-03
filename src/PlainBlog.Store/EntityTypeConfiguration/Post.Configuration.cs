@@ -13,22 +13,19 @@ public class PostConfiguration : IEntityTypeConfiguration<Post>
           .HasColumnName("id");
 
         modelBuilder
-           .HasIndex(a => new { a.Title, a });
-
-        modelBuilder
-           .Property(a => a.Title)
+           .Property(a => a.AuthorId)
            .HasColumnName("author_id");
 
         modelBuilder
             .Property(a => a.Title)
             .HasColumnName("title")
-            .HasMaxLength(100)
+            .HasMaxLength(255)
             .IsRequired();
 
         modelBuilder
             .Property(a => a.Description)
             .HasColumnName("description")
-            .HasMaxLength(250)
+            .HasMaxLength(255)
             .IsRequired();
 
         modelBuilder

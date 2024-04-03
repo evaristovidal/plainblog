@@ -4,9 +4,8 @@ namespace PlainBlog.Store.PostgreSQL;
 
 public class PlainBlogContext(
     DbContextOptions<PlainBlogContext> options,
-    IApplicationDbContextResolver _resolver,
-    IServiceProvider serviceProvider
-    ) : AbstractPlainBlogContext(options, serviceProvider)
+    IApplicationDbContextResolver _resolver
+    ) : AbstractPlainBlogContext(options)
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

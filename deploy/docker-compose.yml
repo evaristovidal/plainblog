@@ -1,0 +1,69 @@
+# Docker compose https://docs.docker.com/compose/compose-file/
+# First, create the "blog_dev" network with this command:
+# $ docker network create --driver bridge blog_dev
+
+version: "3.9"
+name: 'plainblog'
+
+services:
+  traefik:
+    image: "traefik:v2.10"
+    restart: "always"
+    networks:
+      - traefik-net
+    command:
+      - "--api.dashboard=true"
+      - "--api.insecure=true"
+      - "--providers.docker=true"
+      - "--entrypoints.web.address=:80"
+      - "--providers.docker.network=traefik-net"
+      - "--accesslog=true"
+      - "--log.level=DEBUG"
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock:ro"
+
+  blog-db:
+    image: postgres:16
+    restart: unless-stopped
+    ports:
+      - "5433:5432"  # HostPort:ContainerPort - Expose port 5433 to connect when using VisualStudio
+    networks:
+      - blog_dev
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: example
+      POSTGRES_DB: blog_database
+    volumes:
+      - postgres-data-blog:/var/lib/postgresql/data
+
+  blog-api:
+    build:
+        context: ../src
+        dockerfile: ../deploy/server/Dockerfile
+    depends_on:
+      - blog-db
+    networks:
+      - blog_dev
+      - traefik-net
+    environment:
+      ConnectionStrings__PlainBlogContext: "Server=blog-db;User Id=postgres;Password=example;Database=blog_database;Port=5432;TrustServerCertificate=True"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.ar-api.rule=(Host(`app.plainblog.local`) && (PathPrefix(`/api`)))"
+      - "traefik.http.routers.ar-api.entrypoints=web"
+      - "traefik.docker.network=traefik-net"
+      - "traefik.http.services.ar-api.loadbalancer.server.scheme=http"
+      - "traefik.http.services.ar-api.loadbalancer.server.port=8080"
+
+networks:
+  traefik-net:
+    driver: bridge
+  blog_dev:
+    driver: bridge
+
+volumes:  
+  postgres-data-blog:
+    driver: local

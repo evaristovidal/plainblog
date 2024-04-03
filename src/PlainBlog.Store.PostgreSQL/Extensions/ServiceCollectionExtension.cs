@@ -5,10 +5,10 @@ namespace PlainBlog.Store.PostgreSQL.Extensions;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddArDbContext(this IServiceCollection services)
+    public static IServiceCollection AddDbContext(this IServiceCollection services)
     {
         services.AddDbContextResolver();
-        services.AddDbContext<AbstractPlainBlogContext>(ServiceLifetime.Scoped);
+        services.AddDbContext<AbstractPlainBlogContext, PlainBlogContext>(ServiceLifetime.Scoped);
 
         return services;
     }

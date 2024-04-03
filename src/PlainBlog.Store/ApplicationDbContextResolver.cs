@@ -13,7 +13,10 @@ public class ApplicationDbContextResolver : IApplicationDbContextResolver
 
     public string GetConnectionString()
     {
-        var connectionString = _configuration.GetConnectionString("YourConnectionStringKey");
+        var connectionString = _configuration.GetConnectionString("PlainBlogContext");
+        if (string.IsNullOrEmpty(connectionString))
+            throw new Exception("ConnectionString not found");
+
         return connectionString;
     }
 }
