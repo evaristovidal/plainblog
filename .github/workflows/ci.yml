@@ -26,13 +26,14 @@ jobs:
       run: dotnet build src/PlainBlog.Application.sln --configuration Release
 
     - name: Test and upload coverage for all test projects
-      run: |
-        for project in $(find src -type f -name "*Tests.csproj"); do
-          project_dir=$(dirname "$project")
-          dotnet test "$project" --configuration Release --collect:"XPlat Code Coverage"
-          mv "$project_dir/TestResults" "$project_dir/coverage"
-        done
-      continue-on-error: true
+      run: dotnet test src/PlainBlog.Application.sln --configuration Release --collect:"XPlat Code Coverage"
+      # run: |
+      #   for project in $(find src -type f -name "*Tests.csproj"); do
+      #     project_dir=$(dirname "$project")
+      #     dotnet test "$project" --configuration Release --collect:"XPlat Code Coverage"
+      #     mv "$project_dir/TestResults" "$project_dir/coverage"
+      #   done
+      # continue-on-error: true
       
     # - name: Upload coverage reports for all test projects
     #   uses: actions/upload-artifact@v2
@@ -49,5 +50,5 @@ jobs:
       uses: codecov/codecov-action@v4.0.1
       with:
         token: ${{ secrets.CODECOV_TOKEN }}
-        files: src/**/coverage.cobertura.xml
+        files: src/**/**/coverage.cobertura.xml
         slug: evaristovidal/plainblog
