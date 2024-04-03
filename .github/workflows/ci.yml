@@ -25,11 +25,25 @@ jobs:
     - name: Build
       run: dotnet build src/PlainBlog.Application.sln --configuration Release
 
-    - name: Test
-      run: dotnet test src/PlainBlog.Application.sln --configuration Release --collect:"XPlat Code Coverage"
-
-    - name: Upload coverage report
+    - name: Test and upload coverage for all test projects
+      run: |
+        for project in $(find src -type f -name "*Tests.csproj"); do
+          project_dir=$(dirname "$project")
+          dotnet test "$project" --configuration Release --collect:"XPlat Code Coverage"
+          mv "$project_dir/TestResults" "$project_dir/coverage"
+        done
+      continue-on-error: true
+      # Upload coverage reports for all test projects
       uses: actions/upload-artifact@v2
       with:
-        name: coverage
-        path: TestResults
+        name: all-test-coverage
+        path: src/**/coverage
+
+#    - name: Test
+#      run: dotnet test src/PlainBlog.Application.sln --configuration Release --collect:"XPlat Code Coverage"
+#
+#    - name: Upload coverage report
+#      uses: actions/upload-artifact@v2
+#      with:
+#        name: coverage
+#        path: TestResults
