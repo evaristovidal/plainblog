@@ -33,7 +33,8 @@ jobs:
           mv "$project_dir/TestResults" "$project_dir/coverage"
         done
       continue-on-error: true
-      # Upload coverage reports for all test projects
+      
+    - name: Upload coverage reports for all test projects
       uses: actions/upload-artifact@v2
       with:
         name: all-test-coverage
