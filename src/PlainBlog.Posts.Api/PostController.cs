@@ -24,9 +24,11 @@ public class PostController : ControllerBase
     }
 
     [HttpGet(Name = "GetPosts")]
-    public IEnumerable<Post> Get()
+    public async Task<IActionResult> GetAsync(CancellationToken token)
     {
         _logger.LogDebug("Calling PostController.Get");
-        return Posts.ToArray();
+        var posts = await Task.FromResult(Posts.ToArray());
+
+        return Ok(posts);
     }
 }
