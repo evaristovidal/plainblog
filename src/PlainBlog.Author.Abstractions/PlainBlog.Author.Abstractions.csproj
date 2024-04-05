@@ -6,8 +6,4 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\PlainBlog.Author.Abstractions\PlainBlog.Author.Abstractions.csproj" />
-  </ItemGroup>
-
 </Project>

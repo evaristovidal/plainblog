@@ -28,7 +28,7 @@ public class PostRepositoryTests
         serviceCollection.BuildServiceProvider();
 
         var dbContextOptions = (new DbContextOptionsBuilder<AbstractPlainBlogContext>()).Options;
-        _contextMock = new Mock<AbstractPlainBlogContext>(dbContextOptions, _serviceProviderMock.Object);
+        _contextMock = new Mock<AbstractPlainBlogContext>(dbContextOptions);
         _repository = new PostRepository(_contextMock.Object);
 
         _posts = new List<Store.Entities.Post>()

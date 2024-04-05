@@ -1,14 +1,12 @@
 ﻿using FluentValidation;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Moq;
+using PlainBlog.Author.Abstractions;
 using PlainBlog.Post.Abstractions;
-using PlainBlog.Post.Api;
 using PlainBlog.Post.Extensions;
 using PlainBlog.Post.Repository;
-using System.Security.Principal;
+using PlainBlog.Store.Entities;
 using Xunit;
 
 namespace PlainBlog.Post.UnitTests;
@@ -17,7 +15,8 @@ namespace PlainBlog.Post.UnitTests;
 public class PostManagementServiceTests
 {
     private readonly Mock<IPostRepository> _postRepositoryMock;
-    private readonly Mock<ILogger<PostController>> _loggertMock;
+    private readonly Mock<IAuthorManagementService> _authorManagementServiceMock;
+    private readonly Mock<ILogger<PostManagementService>> _loggertMock;
     private readonly Mock<IValidator<PostSave>> _validatorMock;
     private readonly IPostManagementService _service;
 
@@ -32,13 +31,15 @@ public class PostManagementServiceTests
     public PostManagementServiceTests()
     {
         _postRepositoryMock = new Mock<IPostRepository>();
-        _loggertMock = new Mock<ILogger<PostController>>();
+        _authorManagementServiceMock = new Mock<IAuthorManagementService>();
+        _loggertMock = new Mock<ILogger<PostManagementService>>();
         _validatorMock = new Mock<IValidator<PostSave>>();
 
         var serviceCollection = new ServiceCollection();
         serviceCollection.AddLocalization();
         serviceCollection.AddLogging();
         serviceCollection.AddPostCore();
+        serviceCollection.AddSingleton(_authorManagementServiceMock.Object);
         serviceCollection.AddSingleton(_postRepositoryMock.Object);
         serviceCollection.AddSingleton(_loggertMock.Object);
         serviceCollection.AddSingleton(_validatorMock.Object);
@@ -63,20 +64,46 @@ public class PostManagementServiceTests
     }
 
     [Fact]
-    public async Task GetAsync_ShouldReturnPost_WhenIdReceviedAndPostExists()
+    public async Task GetAsync_ShouldReturnPost_WhenIdReceviedAndPostExists_WithoutAuthor()
     {
         // Arrange
         var postId = 2;
         var cancellationToken = CancellationToken.None;
+        var author = new Author.Abstractions.Author() { Id = 1, Name = "Name1", Surname = "Surname1" };
         _postRepositoryMock.Setup(x => x.GetAsync(postId, cancellationToken))
             .ReturnsAsync(_posts[1]);
+        _authorManagementServiceMock.Setup(x => x.GetAsync(_posts[1].AuthorId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(author);
 
         // Act
-        var result = await _service.GetAsync(postId, cancellationToken);
+        var result = await _service.GetAsync(postId, false, cancellationToken);
 
         // Assert
+        Assert.NotNull(result);
         Assert.Equal(_posts[1], result);
+        Assert.Null(result.Author);
         _postRepositoryMock.Verify(x => x.GetAsync(postId, cancellationToken), Times.Once);
+    }
+
+    [Fact]
+    public async Task GetAsync_ShouldReturnPost_WhenIdReceviedAndPostExists_WithAuthor()
+    {
+        // Arrange
+        var postId = 2;
+        var author = new Author.Abstractions.Author() { Id = 1, Name = "Name1", Surname = "Surname1" };
+        _postRepositoryMock.Setup(x => x.GetAsync(postId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(_posts[1]);
+        _authorManagementServiceMock.Setup(x => x.GetAsync(_posts[1].AuthorId, It.IsAny<CancellationToken>()))
+            .ReturnsAsync(author);
+
+        // Act
+        var result = await _service.GetAsync(postId, true, It.IsAny<CancellationToken>());
+
+        // Assert
+        Assert.NotNull(result);
+        Assert.Equal(_posts[1], result);
+        Assert.NotNull(result.Author);
+        _postRepositoryMock.Verify(x => x.GetAsync(postId, It.IsAny<CancellationToken>()), Times.Once);
     }
 
     [Fact]

@@ -28,10 +28,11 @@ public class PostController : ControllerBase
     }
 
     [HttpGet("{id}")]
-    public async Task<IActionResult> GetAsync(int id, CancellationToken token)
+    public async Task<IActionResult> GetAsync(int id, [FromQuery] bool? includeAuthor, CancellationToken token)
     {
         _logger.LogDebug("Calling PostController.Get");
-        var post = await _postManagementService.GetAsync(id, token);
+        includeAuthor = includeAuthor ?? false;
+        var post = await _postManagementService.GetAsync(id, includeAuthor.Value, token);
         if(post == null)
         {
             return NotFound();

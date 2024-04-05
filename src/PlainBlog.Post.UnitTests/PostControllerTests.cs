@@ -53,11 +53,11 @@ public class PostControllerTests
     {
         // Arrange
         int postId = 2;
-        _postManagementServiceMock.Setup(x => x.GetAsync(postId, It.IsAny<CancellationToken>()))
+        _postManagementServiceMock.Setup(x => x.GetAsync(postId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync(_posts[1]);
 
         // Act
-        var result = await _controller.GetAsync(postId, CancellationToken.None);
+        var result = await _controller.GetAsync(postId, It.IsAny<bool>(), CancellationToken.None);
 
         // Assert
         Assert.IsType<OkObjectResult>(result);
@@ -68,11 +68,11 @@ public class PostControllerTests
     {
         // Arrange
         int postId = 20;
-        _postManagementServiceMock.Setup(x => x.GetAsync(postId, It.IsAny<CancellationToken>()))
+        _postManagementServiceMock.Setup(x => x.GetAsync(postId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
             .ReturnsAsync((Abstractions.Post?)null);
 
         // Act
-        var result = await _controller.GetAsync(postId, CancellationToken.None);
+        var result = await _controller.GetAsync(postId, It.IsAny<bool>(), CancellationToken.None);
 
         // Assert
         Assert.IsType<NotFoundResult>(result);

@@ -52,9 +52,21 @@ GET http://app.plainblog.local/api/post
 Accept: application/xml
 ```
 
-Get blog posts by id
+Get blog posts by id in json format
 ```http
 GET http://app.plainblog.local/api/post/1
+Accept: application/json
+```
+
+Get blog posts by id in xml format
+```http
+GET http://app.plainblog.local/api/post/1
+Accept: application/xml
+```
+
+Get blog posts by id including author
+```http
+GET http://app.plainblog.local/api/post/1?includeAuthor=true
 Accept: application/json
 ```
 

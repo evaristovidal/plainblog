@@ -15,7 +15,7 @@ Accept: application/xml
 
 ### Get post by id
 GET {{PlainBlog.Application_HostAddress}}/api/post/1
-Accept: application/xml
+Accept: application/json
 
 
 

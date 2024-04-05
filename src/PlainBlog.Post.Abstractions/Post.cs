@@ -7,4 +7,5 @@ public class Post
     public required string Title { get; set; }
     public required string Description { get; set; }
     public required string Content { get; set; }
+    public Author.Abstractions.Author? Author { get; set; }
 }

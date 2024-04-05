@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.Extensions.Logging;
+using PlainBlog.Author.Abstractions;
 using PlainBlog.Post.Abstractions;
 using PlainBlog.Post.Repository;
 
@@ -8,12 +9,18 @@ namespace PlainBlog.Post;
 public class PostManagementService : IPostManagementService
 {
     private readonly IPostRepository _postRepository;
+    private readonly IAuthorManagementService _authorManagementService;
     private readonly IValidator<PostSave> _validator;
     private readonly ILogger _logger;
 
-    public PostManagementService(IPostRepository postRepository, IValidator<PostSave> validator, ILogger<PostManagementService> logger)
+    public PostManagementService(
+        IPostRepository postRepository,
+        IAuthorManagementService authorManagementService,
+        IValidator<PostSave> validator,
+        ILogger<PostManagementService> logger)
     {
         _postRepository = postRepository;
+        _authorManagementService = authorManagementService;
         _validator = validator;
         _logger = logger;
     }
@@ -29,14 +36,24 @@ public class PostManagementService : IPostManagementService
         return postId;
     }
 
-    public Task<IEnumerable<Abstractions.Post>> GetAsync(CancellationToken token)
+    public async Task<IEnumerable<Abstractions.Post>> GetAsync(CancellationToken token)
     {
-        return _postRepository.GetAsync(token);
+        return await _postRepository.GetAsync(token);
     }
 
-    public Task<Abstractions.Post?> GetAsync(int postId, CancellationToken token)
+    public async Task<Abstractions.Post?> GetAsync(int postId, bool includeAuthor, CancellationToken token)
     {
-        return _postRepository.GetAsync(postId, token);
+        var post = await _postRepository.GetAsync(postId, token);
+        if(post != null && includeAuthor)
+        {
+            var author = await _authorManagementService.GetAsync(post.AuthorId, token);
+            if (author != null)
+            {
+                post.Author = author;
+            }
+        }
+
+        return post;
     }
 
     private async Task ValidateModelAsync(PostSave model, CancellationToken token)
