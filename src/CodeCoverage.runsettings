@@ -17,8 +17,8 @@
 						<!-- Match the path of the source files in which each method is defined: -->
 						<Sources>
 							<Exclude>
-								<Source>.*\\PlainBlog.Store.PostgreSQL\PlainBlogContextDesigner.cs</Source>
-								<Source>.*\\PlainBlog.Store.PostgreSQL\Migrations\PlainBlogContextModelSnapshot.cs</Source>
+								<Source>.*\/PlainBlog\.Store\.PostgreSQL\/PlainBlogContextDesigner\.cs</Source>
+								<Source>.*\/PlainBlog\.Store\.PostgreSQL\/Migrations\/PlainBlogContextModelSnapshot\.cs</Source>
 							</Exclude>
 						</Sources>
 
