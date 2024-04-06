@@ -26,7 +26,7 @@ jobs:
       run: dotnet build src/PlainBlog.Application.sln --configuration Release
 
     - name: Test and upload coverage for all test projects
-      run: dotnet test src/PlainBlog.Application.sln /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput="./TestResults/" /p:ExcludeByFile="**/PlainBlog.Store.PostgreSQL/PlainBlogContextDesigner.cs, **/PlainBlog.Store.PostgreSQL/Migrations/PlainBlogContextModelSnapshot.cs"
+      run: dotnet test src/PlainBlog.Application.sln /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura /p:CoverletOutput="./TestResults/" /p:ExcludeByFile="**/PlainBlog.Store.PostgreSQL/PlainBlogContextDesigner.cs,**/PlainBlog.Store.PostgreSQL/Migrations/PlainBlogContextModelSnapshot.cs"
 
     - name: Upload coverage report
       uses: actions/upload-artifact@v2
