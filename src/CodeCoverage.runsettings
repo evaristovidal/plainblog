@@ -10,7 +10,7 @@
 						<!-- Match assembly file paths: -->
 						<ModulePaths>
 							<Include>
-								<ModulePath>.*Tests.dll$</ModulePath>
+								<ModulePath>*Tests.dll$</ModulePath>
 							</Include>
 						</ModulePaths>
 
