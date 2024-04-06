@@ -9,7 +9,10 @@ public class PlainBlogContext(
 {
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        base.OnConfiguring(optionsBuilder);
-        optionsBuilder.UseNpgsql(_resolver.GetConnectionString(), options => options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
+        if(!optionsBuilder.IsConfigured)
+        {
+            base.OnConfiguring(optionsBuilder);
+            optionsBuilder.UseNpgsql(_resolver.GetConnectionString(), options => options.UseQuerySplittingBehavior(QuerySplittingBehavior.SingleQuery));
+        }
     }
 }

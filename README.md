@@ -11,7 +11,7 @@ Plain blog test application
 
 ## Overview
 
-The application PlainBlog is an example architecture of a fake blogging system providing some basic endpoints. The get services can return Json or XML based on the Accept header.
+The application PlainBlog is an example architecture of a fake blogging system providing some basic endpoints. The services can return Json or XML based on the Accept header.
 
 - `GET api/post` (gets all posts)
 
@@ -40,7 +40,8 @@ A container with PostgreSQL will start and create a default database, then durin
 ## Request method examples
 
 The application can be tested using the [REST Client Extension for Visual Studio Code](https://github.com/Huachao/vscode-restclient) plugin for VSCode
-Get blog posts in json format
+Get blog posts in json format. can be used also If running in VisualStudio using this host http://localhost:5183
+
 ```http
 GET http://app.plainblog.local/api/post
 Accept: application/json
@@ -83,7 +84,7 @@ Content-Type: application/json
 }
 ```
 
-Create a new blog post using xml. **WARNING the result is not returned as XML**. As explained in [MS docs](https://learn.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-8.0#httpresults-type) "Some features like Content negotiation aren't available." We could find alternatives like not returning HttpCode 201 or build our own http result.
+Create a new blog post using xml. **WARNING The POST is actually working with XML the result is returned as JSON**. As explained in [MS docs](https://learn.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-8.0#httpresults-type) "Some features like Content negotiation aren't available." We could find alternatives like not returning HttpCode 201 or build our own http result.
 ```http
 POST http://app.plainblog.local/api/post
 Content-Type: application/xml
@@ -95,3 +96,18 @@ Content-Type: application/xml
     <Content>content99</Content>
 </PostSave>
 ```
+
+## Tests
+
+### Code coverage
+Two files have been excluded from have been excluded from CodeCoverage. 
+- **PlainBlogContextDesigner** is a DBContext used only when generating migrations
+- **PlainBlogContextModelSnapshot** used internally by EntityFramework
+
+### Unit tests
+Unit tests
+
+### Integration tests
+Simple Integration tests using SQLLite in memory to validate that data is retrieved in json or xml depending on the Accept header
+
+### E2E tests
