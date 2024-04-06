@@ -27,7 +27,7 @@ services:
 
   blog-db:
     image: postgres:16
-    restart: unless-stopped
+    restart: always
     ports:
       - "5433:5432"  # HostPort:ContainerPort - Expose port 5433 to connect when using VisualStudio
     networks:
@@ -49,6 +49,7 @@ services:
       - blog_dev
       - traefik-net
     environment:
+      ASPNETCORE_ENVIRONMENT: "Development"     # Development mode to run EF Migrations automatically. Not suitable for production
       ConnectionStrings__PlainBlogContext: "Server=blog-db;User Id=postgres;Password=example;Database=blog_database;Port=5432;TrustServerCertificate=True"
     labels:
       - "traefik.enable=true"

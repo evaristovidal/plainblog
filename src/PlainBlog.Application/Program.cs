@@ -30,12 +30,6 @@ builder.Services.AddSwaggerGen();
 // EVI: Add application services
 builder.Services.AddApplicationServices();
 
-using (var scope = builder.Services.BuildServiceProvider().CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<PlainBlog.Store.AbstractPlainBlogContext>();
-    dbContext.Database.Migrate();
-}
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -43,6 +37,13 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    // Only execute EF migrations if running in development, avoid IntegrationTests or Production
+    using (var scope = builder.Services.BuildServiceProvider().CreateScope())
+    {
+        var dbContext = scope.ServiceProvider.GetRequiredService<PlainBlog.Store.AbstractPlainBlogContext>();
+        dbContext.Database.Migrate();
+    }
 }
 
 app.UseHttpsRedirection();

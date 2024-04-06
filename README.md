@@ -11,7 +11,7 @@ Plain blog test application
 
 ## Overview
 
-The application PlainBlog is an example architecture of a fake blogging system providing some basic endpoints. The get services can return Json or XML based on the Accept header.
+The application PlainBlog is an example architecture of a fake blogging system providing some basic endpoints. The services can return Json or XML based on the Accept header.
 
 - `GET api/post` (gets all posts)
 
@@ -20,7 +20,6 @@ The application PlainBlog is an example architecture of a fake blogging system p
 - `GET api/post/{id}?includeAuthor=true` (gets the post for the specified id including the author details)
 
 - `POST api/post` (adds a new blog entry)
-
 
 ## Installation
 The easiest way to run the application is using WSL. But first add this hostname `app.plainblog.local` to your C:\Windows\System32\drivers\etc file. To get the ip address of your WSL you can use this Powershell command
@@ -40,6 +39,8 @@ A container with PostgreSQL will start and create a default database, then durin
 ## Request method examples
 
 The application can be tested using the [REST Client Extension for Visual Studio Code](https://github.com/Huachao/vscode-restclient) plugin for VSCode
+Get blog posts in json format. If running in VisualStudio use this host http://localhost:5183
+
 Get blog posts in json format
 ```http
 GET http://app.plainblog.local/api/post
@@ -83,7 +84,7 @@ Content-Type: application/json
 }
 ```
 
-Create a new blog post using xml. **WARNING the result is not returned as XML**. As explained in [MS docs](https://learn.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-8.0#httpresults-type) "Some features like Content negotiation aren't available." We could find alternatives like not returning HttpCode 201 or build our own http result.
+Create a new blog post using xml. **WARNING** The POST is actually working with XML but the result is returned as JSON**. This seems to be a limitation as explained in [MS docs](https://learn.microsoft.com/en-us/aspnet/core/web-api/action-return-types?view=aspnetcore-8.0#httpresults-type) "Some features like Content negotiation aren't available." We could find alternatives like not returning HttpCode 201 or build our own http result.
 ```http
 POST http://app.plainblog.local/api/post
 Content-Type: application/xml
@@ -95,3 +96,7 @@ Content-Type: application/xml
     <Content>content99</Content>
 </PostSave>
 ```
+
+## Tests
+
+Have been added **Unit Tests** for all services and some basic **Integration Tests** using SQLLite in memory to validate that data is retrieved in json or xml depending on the Accept header

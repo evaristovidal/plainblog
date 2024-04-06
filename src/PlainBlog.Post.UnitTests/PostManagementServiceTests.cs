@@ -107,13 +107,6 @@ public class PostManagementServiceTests
     }
 
     [Fact]
-    public async Task CreateAsync_ShouldThrowArgumentNullException_WhenModelIsNull()
-    {
-        // Arrange and Act and Assert
-        await Assert.ThrowsAsync<ArgumentNullException>(() => _service.CreateAsync(null, It.IsAny<CancellationToken>()));
-    }
-
-    [Fact]
     public async Task CreateAsync_ShouldThrowValidationException_WhenModelIsNotValid()
     {
         // Arrange

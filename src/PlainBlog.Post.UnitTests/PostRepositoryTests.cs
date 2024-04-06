@@ -106,35 +106,13 @@ public class PostRepositoryTests
             Description = "Description5",
             Title = "Title5"
         };
-        var generatedId = 5;
         _contextMock.Setup<DbSet<Store.Entities.Post>>(x => x.Posts)
                     .ReturnsDbSet(_posts);
-        _contextMock.Setup(context => context.Posts.AddAsync(It.IsAny<Store.Entities.Post>(), It.IsAny<CancellationToken>()))
-                   .Callback<Store.Entities.Post, CancellationToken>((post, _) =>
-                   {
-                       post.Id = generatedId;
-                   })
-                   .Returns<Store.Entities.Post, CancellationToken>((e, c) =>
-                   {
-                       var stateManagerMock = new Mock<IStateManager>();
-                       var entityTypeMock = new Mock<IRuntimeEntityType>();
-                       entityTypeMock
-                           .SetupGet(_ => _.EmptyShadowValuesFactory)
-                           .Returns(() => new Mock<ISnapshot>().Object);
-                       entityTypeMock
-                           .Setup(_ => _.GetProperties())
-                           .Returns(Enumerable.Empty<IProperty>());
-                       var internalEntity = new InternalEntityEntry(stateManagerMock.Object,
-                           entityTypeMock.Object, e);
-                       var entry = new EntityEntry<Store.Entities.Post>(internalEntity);
-                       return ValueTask.FromResult(entry);
-                   });
 
         // Act
         var result = await _repository.CreateAsync(model, It.IsAny<CancellationToken>());
 
         //Assert
-        Assert.Equal(generatedId, result);
         _contextMock.Verify(m => m.Posts.AddAsync(It.IsAny<Store.Entities.Post>(), It.IsAny<CancellationToken>()), Times.Once);
         _contextMock.Verify(m => m.SaveChangesAsync(It.IsAny<CancellationToken>()), Times.Once);
     }

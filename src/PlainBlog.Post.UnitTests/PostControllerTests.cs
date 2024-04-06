@@ -69,7 +69,7 @@ public class PostControllerTests
         // Arrange
         int postId = 20;
         _postManagementServiceMock.Setup(x => x.GetAsync(postId, It.IsAny<bool>(), It.IsAny<CancellationToken>()))
-            .ReturnsAsync((Abstractions.Post?)null);
+            .ReturnsAsync((Abstractions.Post)null);
 
         // Act
         var result = await _controller.GetAsync(postId, It.IsAny<bool>(), CancellationToken.None);
