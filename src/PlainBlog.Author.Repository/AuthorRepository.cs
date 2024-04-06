@@ -5,9 +5,9 @@ namespace PlainBlog.Author.Repository;
 
 public class AuthorRepository : IAuthorRepository
 {
-    private readonly AbstractPlainBlogContext _context;
+    private readonly PlainBlogContext _context;
 
-    public AuthorRepository(AbstractPlainBlogContext context)
+    public AuthorRepository(PlainBlogContext context)
     {
         _context = context;
     }

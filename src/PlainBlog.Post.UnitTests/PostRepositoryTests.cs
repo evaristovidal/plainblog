@@ -17,7 +17,7 @@ public class PostRepositoryTests
 {
     private readonly IPostRepository _repository;
     private readonly Mock<IServiceProvider> _serviceProviderMock = new();
-    private readonly Mock<AbstractPlainBlogContext> _contextMock;
+    private readonly Mock<PlainBlogContext> _contextMock;
 
     private readonly List<PlainBlog.Store.Entities.Post> _posts;
 
@@ -27,8 +27,8 @@ public class PostRepositoryTests
         serviceCollection.AddSingleton(_serviceProviderMock.Object);
         serviceCollection.BuildServiceProvider();
 
-        var dbContextOptions = (new DbContextOptionsBuilder<AbstractPlainBlogContext>()).Options;
-        _contextMock = new Mock<AbstractPlainBlogContext>(dbContextOptions);
+        var dbContextOptions = (new DbContextOptionsBuilder<PlainBlogContext>()).Options;
+        _contextMock = new Mock<PlainBlogContext>(dbContextOptions);
         _repository = new PostRepository(_contextMock.Object);
 
         _posts = new List<Store.Entities.Post>()

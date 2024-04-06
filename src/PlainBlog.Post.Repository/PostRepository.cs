@@ -6,9 +6,9 @@ namespace PlainBlog.Post.Repository;
 
 public class PostRepository : IPostRepository
 {
-    private readonly AbstractPlainBlogContext _context;
+    private readonly PlainBlogContext _context;
 
-    public PostRepository(AbstractPlainBlogContext context)
+    public PostRepository(PlainBlogContext context)
     {
         _context = context;
     }

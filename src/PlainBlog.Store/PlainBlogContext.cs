@@ -4,14 +4,12 @@ using PlainBlog.Store.EntityTypeConfiguration;
 
 namespace PlainBlog.Store;
 
-public class AbstractPlainBlogContext : DbContext
+public class PlainBlogContext : DbContext
 {
     public virtual DbSet<Author> Authors { get; set; }
     public virtual DbSet<Post> Posts { get; set; }
 
-    protected AbstractPlainBlogContext(DbContextOptions options) : base(options)
-    {
-    }
+    public PlainBlogContext(DbContextOptions<PlainBlogContext> options) : base(options) { }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

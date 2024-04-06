@@ -14,7 +14,7 @@
     <ProjectReference Include="..\PlainBlog.Author\PlainBlog.Author.csproj" />
     <ProjectReference Include="..\PlainBlog.i18n\PlainBlog.i18n.csproj" />
     <ProjectReference Include="..\PlainBlog.Post.Api\PlainBlog.Post.Api.csproj" />
-    <ProjectReference Include="..\PlainBlog.Store.PostgreSQL\PlainBlog.Store.PostgreSQL.csproj" />
+    <ProjectReference Include="..\PlainBlog.Store\PlainBlog.Store.csproj" />
   </ItemGroup>
 
 </Project>

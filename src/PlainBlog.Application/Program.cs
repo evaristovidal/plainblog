@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("PlainBlogContext");
+
+// Add services to the container.
 // EVI: Add json and XML formatters, based on the Accept header the response is going to have the right format
 // More info: https://learn.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-8.0#input-formatters
 builder.Services
@@ -28,13 +31,13 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // EVI: Add application services
-builder.Services.AddApplicationServices();
+builder.Services.AddApplicationServices(connectionString);
 
-using (var scope = builder.Services.BuildServiceProvider().CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<PlainBlog.Store.AbstractPlainBlogContext>();
-    dbContext.Database.Migrate();
-}
+//using (var scope = builder.Services.BuildServiceProvider().CreateScope())
+//{
+//    var dbContext = scope.ServiceProvider.GetRequiredService<PlainBlog.Store.PlainBlogContext>();
+//    dbContext.Database.Migrate();
+//}
 
 var app = builder.Build();
 
