@@ -6,24 +6,6 @@ version: "3.9"
 name: 'plainblog'
 
 services:
-  traefik:
-    image: "traefik:v2.10"
-    restart: "always"
-    networks:
-      - traefik-net
-    command:
-      - "--api.dashboard=true"
-      - "--api.insecure=true"
-      - "--providers.docker=true"
-      - "--entrypoints.web.address=:80"
-      - "--providers.docker.network=traefik-net"
-      - "--accesslog=true"
-      - "--log.level=DEBUG"
-    ports:
-      - "80:80"
-      - "8080:8080"
-    volumes:
-      - "/var/run/docker.sock:/var/run/docker.sock:ro"
 
   blog-db:
     image: postgres:16
@@ -43,25 +25,17 @@ services:
     build:
         context: ../src
         dockerfile: ../deploy/server/Dockerfile
+    ports:
+      - "8080:80"
     depends_on:
       - blog-db
     networks:
       - blog_dev
-      - traefik-net
     environment:
       ASPNETCORE_ENVIRONMENT: "Development"     # Development mode to run EF Migrations automatically. Not suitable for production
       ConnectionStrings__PlainBlogContext: "Server=blog-db;User Id=postgres;Password=example;Database=blog_database;Port=5432;TrustServerCertificate=True"
-    labels:
-      - "traefik.enable=true"
-      - "traefik.http.routers.ar-api.rule=(Host(`app.plainblog.local`) && (PathPrefix(`/api`)))"
-      - "traefik.http.routers.ar-api.entrypoints=web"
-      - "traefik.docker.network=traefik-net"
-      - "traefik.http.services.ar-api.loadbalancer.server.scheme=http"
-      - "traefik.http.services.ar-api.loadbalancer.server.port=8080"
 
 networks:
-  traefik-net:
-    driver: bridge
   blog_dev:
     driver: bridge
 
