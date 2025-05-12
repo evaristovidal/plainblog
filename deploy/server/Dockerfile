@@ -1,9 +1,10 @@
-FROM mcr.microsoft.com/dotnet/sdk:8.0
-COPY . /src
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
-RUN dotnet build ./PlainBlog.Application -c Debug -o /build
+COPY . .
+RUN dotnet publish PlainBlog.Application/PlainBlog.Application.csproj -c Release -o /app/publish
 
 FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
-COPY --from=0 /build .
-CMD ["/app/PlainBlog.Application"]
+COPY --from=build /app/publish .
+EXPOSE 80
+ENTRYPOINT ["dotnet", "PlainBlog.Application.dll"]

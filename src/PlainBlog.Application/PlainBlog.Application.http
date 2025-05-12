@@ -1,33 +1,33 @@
-@PlainBlog.Application_HostAddress = http://localhost:5183
-#@PlainBlog.Application_HostAddress = http://app.plainblog.local
+@PlainBlog_HostAddress = http://localhost:8080
+#@PlainBlog_HostAddress = http://app.plainblog.local
 
 ### Get Posts in json
-GET {{PlainBlog.Application_HostAddress}}/api/post
+GET {{PlainBlog_HostAddress}}/api/post
 Accept: application/json
 
 
 
 ### Get Posts in xml
-GET {{PlainBlog.Application_HostAddress}}/api/post
+GET {{PlainBlog_HostAddress}}/api/post
 Accept: application/xml
 
 
 
 ### Get post by id
-GET {{PlainBlog.Application_HostAddress}}/api/post/1
+GET {{PlainBlog_HostAddress}}/api/post/1
 Accept: application/json
 
 
 
 ### Get post by id including author data
-GET {{PlainBlog.Application_HostAddress}}/api/post/1?includeAuthor=true
+GET {{PlainBlog_HostAddress}}/api/post/1?includeAuthor=true
 Accept: application/json
 
 
 
 
 ### Create a new blog post using json
-POST {{PlainBlog.Application_HostAddress}}/api/post
+POST {{PlainBlog_HostAddress}}/api/post
 Content-Type: application/json
 Accept: application/json
 
@@ -41,7 +41,7 @@ Accept: application/json
 ###
 
 ### Create a new blog post using xml
-POST {{PlainBlog.Application_HostAddress}}/api/post
+POST {{PlainBlog_HostAddress}}/api/post
 Content-Type: application/xml
 Accept: application/xml
 

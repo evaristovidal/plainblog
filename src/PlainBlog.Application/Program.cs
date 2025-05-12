@@ -31,6 +31,7 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddApplicationServices();
 
 var app = builder.Build();
+app.Logger.LogInformation($"App is starting up. ENV: {app.Environment.EnvironmentName}");
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -46,12 +47,10 @@ if (app.Environment.IsDevelopment())
     }
 }
 
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 
 app.UseAuthorization();
-
 app.MapControllers();
-
 app.Run();
 
 // Make the Program class public using a partial class declaration to be used in the IntegrationTests
